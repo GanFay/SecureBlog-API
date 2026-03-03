@@ -38,11 +38,19 @@ func main() {
 					created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 		    		updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 				);
-			`)
+		CREATE TABLE IF NOT EXISTS users (
+		    id         SERIAL PRIMARY KEY,
+		    username   TEXT UNIQUE NOT NULL,
+		    email      TEXT UNIQUE NOT NULL,
+		    password_hash TEXT NOT NULL,
+		    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+		);			
+`)
+
 	if err != nil {
 		log.Fatal("Create table error:", err)
 	}
-	log.Println("Table posts is ready")
+	log.Println("Table is ready")
 
 	h := handlers.NewHandler(pool)
 	r := router.SetupRouter(h)
