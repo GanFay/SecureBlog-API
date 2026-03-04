@@ -15,5 +15,6 @@ func SetupRouter(h *handlers.Handler) *gin.Engine {
 	r.GET("/posts", h.GetAllPosts)
 	r.GET("/posts/:id", h.GetPoID)
 	r.POST("/register", h.Register)
+	r.POST("/login", h.Login)
 	return r
 }
