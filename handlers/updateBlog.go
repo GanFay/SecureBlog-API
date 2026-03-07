@@ -10,10 +10,19 @@ import (
 
 func (h *Handler) UpdateBlog(c *gin.Context) {
 	idstr := c.Param("id")
-
+	userID, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "user_id not found"})
+		return
+	}
 	id, err := strconv.Atoi(idstr)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid id: " + idstr})
+	}
+
+	if idstr != userID {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "not permission"})
+		return
 	}
 
 	var newBlog Blog
